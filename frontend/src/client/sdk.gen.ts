@@ -908,7 +908,7 @@ export class EmpleadosService {
   ): CancelablePromise<EmpleadosUpdateEmpleadoResponse> {
     return __request(OpenAPI, {
       method: "PUT",
-      url: "/api/v1/empleads/{id}",
+      url: "/api/v1/empleados/{id}",
       path: {
         id: data.id,
       },

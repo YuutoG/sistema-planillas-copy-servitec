@@ -1,8 +1,9 @@
 import uuid
+from datetime import date, datetime
 
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
-from datetime import datetime, date
+
 
 # Shared properties
 class UserBase(SQLModel):
@@ -126,8 +127,9 @@ class SexoBase(SQLModel):
 class Sexo(SexoBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
 
-class SexoPublic(Sexo):
-    ...
+
+class SexoPublic(Sexo): ...
+
 
 # Properties to receive on item creation
 class SexoCreate(SexoBase):
@@ -135,13 +137,13 @@ class SexoCreate(SexoBase):
 
 
 # Properties to receive on item update
-class SexoUpdate(SexoBase):
-    ...
+class SexoUpdate(SexoBase): ...
 
 
 class SexosPublic(SQLModel):
     data: list[SexoPublic]
     count: int
+
 
 # Catálogo de Estado Civil
 class EstadoCivilBase(SQLModel):
@@ -151,7 +153,34 @@ class EstadoCivilBase(SQLModel):
 class EstadoCivil(EstadoCivilBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
 
+
+# Catálogo de puestos de trabajo
+class PuestoTrabajoBase(SQLModel):
+    nombre_puesto: str = Field(nullable=False, max_length=256)
+    descripcion_puesto: str = Field(nullable=True, max_length=512)
+    salario_limite_inferior: float = Field(nullable=False)
+    salario_limite_superior: float = Field(nullable=False)
+
+
+class PuestoTrabajo(BaseIdentifier, PuestoTrabajoBase, table=True): ...
+
+
+class PuestoTrabajoPublic(PuestoTrabajo): ...
+
+
+class PuestoTrabajoCreate(PuestoTrabajoBase): ...
+
+
+class PuestoTrabajoUpdate(PuestoTrabajoBase): ...
+
+
+class PuestosTrabajoPublic(SQLModel):
+    data: list[PuestoTrabajoPublic]
+    count: int
+
+
 # Empleado
+
 
 class EmpleadoBase(SQLModel):
     primer_nombre: str = Field(min_length=0, max_length=256, nullable=False)
@@ -169,20 +198,17 @@ class EmpleadoBase(SQLModel):
     id_sexo: uuid.UUID = Field(nullable=False, default=None, foreign_key="sexo.id")
 
 
-class Empleado(BaseIdentifier, EmpleadoBase, table=True):
-    ...
+class Empleado(BaseIdentifier, EmpleadoBase, table=True): ...
 
 
-class EmpleadoCreate(EmpleadoBase):
-    ...
+class EmpleadoCreate(EmpleadoBase): ...
 
 
 class EmpleadoPublic(Empleado):
     nombre_sexo: str = Field(min_length=0, max_length=10, nullable=False)
 
 
-class EmpleadoUpdate(EmpleadoBase):
-    ...
+class EmpleadoUpdate(EmpleadoBase): ...
 
 
 class EmpleadosPublic(SQLModel):
@@ -191,6 +217,7 @@ class EmpleadosPublic(SQLModel):
 
 
 # Empresa
+
 
 class EmpresaBase(SQLModel):
     nombre_empresa: str = Field(min_length=0, max_length=512, nullable=False)
@@ -203,30 +230,30 @@ class EmpresaBase(SQLModel):
     correo_electronico: str = Field(min_length=0, max_length=256, nullable=False)
 
 
+class Empresa(BaseIdentifier, EmpresaBase, table=True): ...
 
 
-class Empresa(BaseIdentifier, EmpresaBase, table=True):
-    ...
-
-class EmpresaCreate(EmpresaBase):
-    ...
+class EmpresaCreate(EmpresaBase): ...
 
 
-class EmpresaPublic(Empresa):
-    ...
+class EmpresaPublic(Empresa): ...
 
 
-class EmpresaUpdate(EmpresaBase):
-    ...
+class EmpresaUpdate(EmpresaBase): ...
 
 
 class EmpresasPublic(SQLModel):
     data: list[EmpresaPublic]
     count: int
 
+
 # Unidad Organizacional
 class UnidadOrganizacionalBase(SQLModel):
-    nombre_unidad_organizacional: str = Field(min_length=0, max_length=256, nullable=False)
-    tipo_unidad_organizacional: str = Field(min_length=0, max_length=256, nullable=False)
+    nombre_unidad_organizacional: str = Field(
+        min_length=0, max_length=256, nullable=False
+    )
+    tipo_unidad_organizacional: str = Field(
+        min_length=0, max_length=256, nullable=False
+    )
     empresa_id: str = Field(nullable=False, foreign_key="empresa.id")
     empresa: Empresa = Relationship(back_populates="empresa")

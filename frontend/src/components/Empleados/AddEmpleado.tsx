@@ -1,22 +1,20 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Controller, type SubmitHandler, useForm } from "react-hook-form"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { type SubmitHandler, useForm } from "react-hook-form"
 
 import {
   Button,
-  createListCollection,
   DialogActionTrigger,
   DialogTitle,
   Input,
-  // Select,
+  NumberInput,
+  NativeSelect,
   Text,
   VStack,
 } from "@chakra-ui/react"
-// import { Select } from "@chakra-ui/select"
-import { Select, Portal, type SelectItem } from "@chakra-ui/react"
 import { useState } from "react"
 import { FaPlus } from "react-icons/fa"
 
-import { type EmpleadoCreate, EmpleadosService } from "@/client"
+import { type EmpleadoCreate, EmpleadosService, SexosService } from "@/client"
 import type { ApiError } from "@/client/core/ApiError"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
@@ -30,6 +28,15 @@ import {
   DialogTrigger,
 } from "../ui/dialog"
 import { Field } from "../ui/field"
+
+// Para listar la información de Sexo
+function getSexosQueryOptions({ page }: { page: number }) {
+  return {
+    queryFn: () =>
+      SexosService.readSexos({ skip: (page - 1) * 10, limit: 100 }),
+    queryKey: ["sexos", { page }],
+  }
+}
 
 const AddEmpleado = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -49,8 +56,8 @@ const AddEmpleado = () => {
       primer_apellido: "",
       segundo_apellido: "",
       apellido_casada: "",
-      fecha_nacimiento: "",
-      fecha_ingreso: "",
+      fecha_nacimiento: undefined,
+      fecha_ingreso: undefined,
       numero_documento: "",
       numero_nit: "",
       codigo_isss: "",
@@ -59,6 +66,14 @@ const AddEmpleado = () => {
       id_sexo: ""
     },
   })
+
+  // Para listar la información de Sexo
+  const { data: data_sexo, isLoading: isLoading_sexo, isPlaceholderData: isPlaceholderData_sexo } = useQuery({
+    ...getSexosQueryOptions({ page: 1 }),
+    placeholderData: (prevData) => prevData,
+  })
+  const sexos = data_sexo?.data.slice(0, 100) ?? []
+  // const count = data?.count ?? 0
 
   const mutation = useMutation({
     mutationFn: (data: EmpleadoCreate) =>
@@ -77,8 +92,11 @@ const AddEmpleado = () => {
   })
 
   const onSubmit: SubmitHandler<EmpleadoCreate> = (data) => {
+    console.log(data)
     mutation.mutate(data)
   }
+  const opciones_sexo = (sexos.map((sexo) => (
+    <option key={sexo.id} value={sexo.id}>{sexo.nombre_sexo}</option>)));
 
   return (
     <DialogRoot
@@ -177,6 +195,8 @@ const AddEmpleado = () => {
                   id="fecha_nacimiento"
                   {...register("fecha_nacimiento", { required: "La fecha de nacimiento es obligatoria.", })}
                   placeholder="Fecha de nacimiento..."
+                  min={"1932-01-01"}
+                  max={"2025-05-26"}
                   type="date"
                 />
               </Field>
@@ -189,7 +209,7 @@ const AddEmpleado = () => {
                   id="fecha_ingreso"
                   {...register("fecha_ingreso", { required: "La fecha de ingreso es obligatoria.", })}
                   placeholder="Fecha de ingreso..."
-                  type="data"
+                  type="date"
                 />
               </Field>
               <Field
@@ -217,6 +237,18 @@ const AddEmpleado = () => {
                 />
               </Field>
               <Field
+                invalid={!!errors.codigo_isss}
+                errorText={errors.codigo_isss?.message}
+                label="ISSS"
+              >
+                <Input
+                  id="codigo_isss"
+                  {...register("codigo_isss", { required: "El código ISSS es obligatorio.", })}
+                  placeholder="Número de Identificación del ISSS..."
+                  type="text"
+                />
+              </Field>
+              <Field
                 invalid={!!errors.codigo_nup}
                 errorText={errors.codigo_nup?.message}
                 label="NUP"
@@ -233,24 +265,29 @@ const AddEmpleado = () => {
                 errorText={errors.salario?.message}
                 label="Salario"
               >
-                <Input
-                  id="salario"
-                  {...register("salario", { required: "El Salario es obligatorio.", })}
-                  placeholder="Salario..."
-                  type="text"
-                />
+                <NumberInput.Root
+                  formatOptions={{
+                    style: "decimal",
+                    maximumFractionDigits: 2,
+                    useGrouping: false,
+                  }}
+                  step={0.01}
+                >
+                  <NumberInput.Control />
+                  <NumberInput.Input {...register("salario", { required: "El Salario es obligatorio.", valueAsNumber: true })} />
+                </NumberInput.Root>
               </Field>
               <Field
                 invalid={!!errors.id_sexo}
                 errorText={errors.id_sexo?.message}
-                label="id_sexo"
+                label="Sexo"
               >
-                <Input
-                  id="id_sexo"
-                  {...register("id_sexo", { required: "El id_sexo es obligatorio.", })}
-                  placeholder="id_sexo..."
-                  type="text"
-                />
+                <NativeSelect.Root>
+                  <NativeSelect.Field {...register("id_sexo", { required: "El sexo es obligatorio.", })}>
+                    {opciones_sexo}
+                  </NativeSelect.Field>
+                  <NativeSelect.Indicator />
+                </NativeSelect.Root>
               </Field>
             </VStack>
           </DialogBody>

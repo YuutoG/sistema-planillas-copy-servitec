@@ -40,7 +40,7 @@ const AddItem = () => {
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
-      nombre_Sexo: "",
+      nombre_sexo: "",
     },
   })
 
@@ -87,8 +87,8 @@ const AddItem = () => {
             <VStack gap={4}>
               <Field
                 required
-                invalid={!!errors.title}
-                errorText={errors.title?.message}
+                invalid={!!errors.nombre_sexo}
+                errorText={errors.nombre_sexo?.message}
                 label="Nombre"
               >
                 <Input

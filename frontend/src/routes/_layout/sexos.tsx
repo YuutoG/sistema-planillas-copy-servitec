@@ -22,13 +22,13 @@ import {
   PaginationRoot,
 } from "@/components/ui/pagination.tsx"
 
-const itemsSearchSchema = z.object({
+const sexosSearchSchema = z.object({
   page: z.number().catch(1),
 })
 
 const PER_PAGE = 5
 
-function getItemsQueryOptions({ page }: { page: number }) {
+function getSexosQueryOptions({ page }: { page: number }) {
   return {
     queryFn: () =>
       SexosService.readSexos({ skip: (page - 1) * PER_PAGE, limit: PER_PAGE }),
@@ -38,15 +38,15 @@ function getItemsQueryOptions({ page }: { page: number }) {
 
 export const Route = createFileRoute("/_layout/sexos")({
   component: Sexos,
-  validateSearch: (search) => itemsSearchSchema.parse(search),
+  validateSearch: (search) => sexosSearchSchema.parse(search),
 })
 
-function ItemsTable() {
+function SexosTable() {
   const navigate = useNavigate({ from: Route.fullPath })
   const { page } = Route.useSearch()
 
   const { data, isLoading, isPlaceholderData } = useQuery({
-    ...getItemsQueryOptions({ page }),
+    ...getSexosQueryOptions({ page }),
     placeholderData: (prevData) => prevData,
   })
 
@@ -55,14 +55,14 @@ function ItemsTable() {
       search: (prev: { [key: string]: string }) => ({ ...prev, page }),
     })
 
-  const items = data?.data.slice(0, PER_PAGE) ?? []
+  const sexos = data?.data.slice(0, PER_PAGE) ?? []
   const count = data?.count ?? 0
 
   if (isLoading) {
     return <PendingItems />
   }
 
-  if (items.length === 0) {
+  if (sexos.length === 0) {
     return (
       <EmptyState.Root>
         <EmptyState.Content>
@@ -91,16 +91,16 @@ function ItemsTable() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {items?.map((item) => (
-            <Table.Row key={item.id} opacity={isPlaceholderData ? 0.5 : 1}>
+          {sexos?.map((sexo) => (
+            <Table.Row key={sexo.id} opacity={isPlaceholderData ? 0.5 : 1}>
               <Table.Cell truncate maxW="sm">
-                {item.id}
+                {sexo.id}
               </Table.Cell>
               <Table.Cell truncate maxW="sm">
-                {item.nombre_sexo}
+                {sexo.nombre_sexo}
               </Table.Cell>
               <Table.Cell>
-                <SexoActionsMenu sexo={item} />
+                <SexoActionsMenu sexo={sexo} />
               </Table.Cell>
             </Table.Row>
           ))}
@@ -130,7 +130,7 @@ function Sexos() {
         Administración de Catálogo de Sexos
       </Heading>
       <AddSexo />
-      <ItemsTable />
+      <SexosTable />
     </Container>
   )
 }
