@@ -1,14 +1,20 @@
 import { Box, Flex, Icon, Text } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link as RouterLink } from "@tanstack/react-router"
-import { FiBriefcase, FiHome, FiSettings, FiUsers } from "react-icons/fi"
+import { FiBriefcase, FiHome, FiSettings, FiUsers, FiUser, FiCalendar } from "react-icons/fi"
+import { LuBuilding } from "react-icons/lu";
+import { FaRegListAlt } from "react-icons/fa";
 import type { IconType } from "react-icons/lib"
 
 import type { UserPublic } from "@/client"
 
 const items = [
   { icon: FiHome, title: "Dashboard", path: "/" },
+  { icon: FiUser, title: "Empleados", path: "/empleados" },
+  { icon: FiCalendar, title: "Marcaciones", path: "/" },
+  { icon: FaRegListAlt, title: "Catálogo de Sexo", path: "/sexos" },
   { icon: FiBriefcase, title: "Items", path: "/items" },
+  { icon: LuBuilding, title: "Empresa", path: "/empresas" },
   { icon: FiSettings, title: "User Settings", path: "/settings" },
 ]
 

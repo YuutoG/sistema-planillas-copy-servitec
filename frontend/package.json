@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^3.8.0",
+    "@chakra-ui/select": "^2.1.2",
     "@emotion/react": "^11.14.0",
     "@tanstack/react-query": "^5.28.14",
     "@tanstack/react-query-devtools": "^5.74.9",

@@ -46,6 +46,36 @@ import type {
   UtilsTestEmailData,
   UtilsTestEmailResponse,
   UtilsHealthCheckResponse,
+  SexosReadSexosData,
+  SexosReadSexosResponse,
+  SexosCreateSexoData,
+  SexosReadSexoData,
+  SexosReadSexoResponse,
+  SexosUpdateSexoData,
+  SexosUpdateSexoResponse,
+  SexosDeleteSexoData,
+  SexosDeleteSexoResponse,
+  EmpresasReadEmpresasData,
+  EmpresasReadEmpresasResponse,
+  EmpresasReadEmpresaData,
+  EmpresasCreateEmpresaData,
+  EmpresasCreateEmpresaResponse,
+  SexosCreateSexoResponse,
+  EmpresasReadEmpresaResponse,
+  EmpresasUpdateEmpresaData,
+  EmpresasUpdateEmpresaResponse,
+  EmpresasDeleteEmpresaData,
+  EmpresasDeleteEmpresaResponse,
+  EmpleadosReadEmpleadosData,
+  EmpleadosReadEmpleadosResponse,
+  EmpleadosCreateEmpleadoData,
+  EmpleadosCreateEmpleadoResponse,
+  EmpleadosReadEmpleadoData,
+  EmpleadosReadEmpleadoResponse,
+  EmpleadosUpdateEmpleadoData,
+  EmpleadosUpdateEmpleadoResponse,
+  EmpleadosDeleteEmpleadoData,
+  EmpleadosDeleteEmpleadoResponse,
 } from "./types.gen"
 
 export class ItemsService {
@@ -544,6 +574,372 @@ export class UtilsService {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/v1/utils/health-check/",
+    })
+  }
+}
+
+export class SexosService {
+  /**
+   * Leer Sexos
+   * Obtneer sexos.
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @returns ItemsPublic Successful Response
+   * @throws ApiError
+   */
+  public static readSexos(
+    data: SexosReadSexosData = {},
+  ): CancelablePromise<SexosReadSexosResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/sexos/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Create Sexo
+   * Create new sexo.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns ItemPublic Successful Response
+   * @throws ApiError
+   */
+  public static createSexo(
+    data: SexosCreateSexoData,
+  ): CancelablePromise<SexosCreateSexoResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/sexos/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Sexo
+   * Get sexo by ID.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns SexoPublic Successful Response
+   * @throws ApiError
+   */
+  public static readSexo(
+    data: SexosReadSexoData,
+  ): CancelablePromise<SexosReadSexoResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/sexos/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Sexo
+   * Update an sexo.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns SexoPublic Successful Response
+   * @throws ApiError
+   */
+  public static updateSexo(
+    data: SexosUpdateSexoData,
+  ): CancelablePromise<SexosUpdateSexoResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/sexos/{id}",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Sexo
+   * Delete an sexo.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteSexo(
+    data: SexosDeleteSexoData,
+  ): CancelablePromise<SexosDeleteSexoResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/sexos/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
+
+export class EmpresasService {
+  /**
+   * Leer Empresas
+   * Obtener Empresas.
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @returns EmpresasPublic Successful Response
+   * @throws ApiError
+   */
+  public static readEmpresas(
+    data: EmpresasReadEmpresasData = {},
+  ): CancelablePromise<EmpresasReadEmpresasResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/empresas/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Create Empresa
+   * Create new Empresa.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns ItemPublic Successful Response
+   * @throws ApiError
+   */
+  public static createEmpresa(
+    data: EmpresasCreateEmpresaData,
+  ): CancelablePromise<EmpresasCreateEmpresaResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/empresas/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Empresa
+   * Get Empresa by ID.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns EmpresaPublic Successful Response
+   * @throws ApiError
+   */
+  public static readEmpresa(
+    data: EmpresasReadEmpresaData,
+  ): CancelablePromise<EmpresasReadEmpresaResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/empresas/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Empresa
+   * Update an Empresa.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns EmpresaPublic Successful Response
+   * @throws ApiError
+   */
+  public static updateEmpresa(
+    data: EmpresasUpdateEmpresaData,
+  ): CancelablePromise<EmpresasUpdateEmpresaResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/empresas/{id}",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Empresa
+   * Delete an Empresa.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteEmpresa(
+    data: EmpresasDeleteEmpresaData,
+  ): CancelablePromise<EmpresasDeleteEmpresaResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/empresas/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
+
+// Empleado
+export class EmpleadosService {
+  /**
+   * Leer Empleados
+   * Obtener Empleados.
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @returns EmpleadosPublic Successful Response
+   * @throws ApiError
+   */
+  public static readEmpleados(
+    data: EmpleadosReadEmpleadosData = {},
+  ): CancelablePromise<EmpleadosReadEmpleadosResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/empleados/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Create Empleado
+   * Create new Empleado.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns ItemPublic Successful Response
+   * @throws ApiError
+   */
+  public static createEmpleado(
+    data: EmpleadosCreateEmpleadoData,
+  ): CancelablePromise<EmpleadosCreateEmpleadoResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/empleados/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Empleado
+   * Get Empleado by ID.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns EmpleadoPublic Successful Response
+   * @throws ApiError
+   */
+  public static readEmpleado(
+    data: EmpleadosReadEmpleadoData,
+  ): CancelablePromise<EmpleadosReadEmpleadoResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/empleados/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Empleado
+   * Update an Empleado.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns EmpleadoPublic Successful Response
+   * @throws ApiError
+   */
+  public static updateEmpleado(
+    data: EmpleadosUpdateEmpleadoData,
+  ): CancelablePromise<EmpleadosUpdateEmpleadoResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/empleads/{id}",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Empleado
+   * Delete an Empleado.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteEmpleado(
+    data: EmpleadosDeleteEmpleadoData,
+  ): CancelablePromise<EmpleadosDeleteEmpleadoResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/empleados/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
     })
   }
 }

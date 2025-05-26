@@ -2,7 +2,7 @@ import uuid
 
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
-
+from datetime import datetime, date
 
 # Shared properties
 class UserBase(SQLModel):
@@ -111,3 +111,122 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=40)
+
+
+class BaseIdentifier(SQLModel):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime = Field(default_factory=datetime.now, nullable=False)
+
+
+# Catalogo de Sexo
+class SexoBase(SQLModel):
+    nombre_sexo: str = Field(min_length=0, max_length=10, nullable=False)
+
+
+class Sexo(SexoBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+class SexoPublic(Sexo):
+    ...
+
+# Properties to receive on item creation
+class SexoCreate(SexoBase):
+    pass
+
+
+# Properties to receive on item update
+class SexoUpdate(SexoBase):
+    ...
+
+
+class SexosPublic(SQLModel):
+    data: list[SexoPublic]
+    count: int
+
+# Catálogo de Estado Civil
+class EstadoCivilBase(SQLModel):
+    nombre_estado_civil: str = Field(min_length=0, max_length=256, nullable=False)
+
+
+class EstadoCivil(EstadoCivilBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+# Empleado
+
+class EmpleadoBase(SQLModel):
+    primer_nombre: str = Field(min_length=0, max_length=256, nullable=False)
+    segundo_nombre: str | None = Field(min_length=0, max_length=256, nullable=True)
+    primer_apellido: str = Field(min_length=0, max_length=256, nullable=False)
+    segundo_apellido: str | None = Field(min_length=0, max_length=256, nullable=True)
+    apellido_casada: str | None = Field(min_length=0, max_length=256, nullable=True)
+    fecha_nacimiento: date = Field(nullable=False)
+    fecha_ingreso: date = Field(nullable=False)
+    numero_documento: str = Field(min_length=0, max_length=256, nullable=False)
+    numero_nit: str = Field(min_length=0, max_length=256, nullable=False)
+    codigo_isss: str = Field(min_length=0, max_length=256, nullable=False)
+    codigo_nup: str = Field(min_length=0, max_length=256, nullable=False)
+    salario: float = Field(nullable=False)
+    id_sexo: uuid.UUID = Field(nullable=False, default=None, foreign_key="sexo.id")
+
+
+class Empleado(BaseIdentifier, EmpleadoBase, table=True):
+    ...
+
+
+class EmpleadoCreate(EmpleadoBase):
+    ...
+
+
+class EmpleadoPublic(Empleado):
+    nombre_sexo: str = Field(min_length=0, max_length=10, nullable=False)
+
+
+class EmpleadoUpdate(EmpleadoBase):
+    ...
+
+
+class EmpleadosPublic(SQLModel):
+    data: list[EmpleadoPublic]
+    count: int
+
+
+# Empresa
+
+class EmpresaBase(SQLModel):
+    nombre_empresa: str = Field(min_length=0, max_length=512, nullable=False)
+    direccion: str = Field(min_length=0, max_length=512, nullable=False)
+    representante_legal: str = Field(min_length=0, max_length=512, nullable=False)
+    nit: str = Field(min_length=0, max_length=256, nullable=False)
+    nic: str = Field(min_length=0, max_length=256, nullable=False)
+    telefono: str = Field(min_length=0, max_length=256, nullable=False)
+    pagina_web: str = Field(min_length=0, max_length=256, nullable=False)
+    correo_electronico: str = Field(min_length=0, max_length=256, nullable=False)
+
+
+
+
+class Empresa(BaseIdentifier, EmpresaBase, table=True):
+    ...
+
+class EmpresaCreate(EmpresaBase):
+    ...
+
+
+class EmpresaPublic(Empresa):
+    ...
+
+
+class EmpresaUpdate(EmpresaBase):
+    ...
+
+
+class EmpresasPublic(SQLModel):
+    data: list[EmpresaPublic]
+    count: int
+
+# Unidad Organizacional
+class UnidadOrganizacionalBase(SQLModel):
+    nombre_unidad_organizacional: str = Field(min_length=0, max_length=256, nullable=False)
+    tipo_unidad_organizacional: str = Field(min_length=0, max_length=256, nullable=False)
+    empresa_id: str = Field(nullable=False, foreign_key="empresa.id")
+    empresa: Empresa = Relationship(back_populates="empresa")

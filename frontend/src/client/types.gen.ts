@@ -232,3 +232,203 @@ export type UtilsTestEmailData = {
 export type UtilsTestEmailResponse = Message
 
 export type UtilsHealthCheckResponse = boolean
+
+
+// Sexo
+export type SexoCreate = {
+  nombre_sexo: string
+}
+
+export type SexoPublic = {
+  nombre_sexo: string
+  id: string
+}
+
+export type SexosPublic = {
+  data: Array<SexoPublic>
+  count: number
+}
+
+export type SexoUpdate = {
+  nombre_sexo: string | null
+}
+
+export type SexosReadSexosData = {
+  limit?: number
+  skip?: number
+}
+
+export type SexosCreateSexoData = {
+  requestBody: SexoCreate
+}
+
+export type SexosReadSexoData = {
+  id: string
+}
+export type SexosUpdateSexoData = {
+  id: string
+  requestBody: SexoUpdate
+}
+
+
+export type SexosDeleteSexoData = {
+  id: string
+}
+
+export type SexosUpdateSexoResponse = SexoPublic
+export type SexosDeleteSexoResponse = Message
+export type SexosReadSexoResponse = SexoPublic
+export type SexosCreateSexoResponse = SexoPublic
+export type SexosReadSexosResponse = SexosPublic
+
+// Empresa
+export type EmpresaCreate = {
+  nombre_empresa: string
+  direccion: string
+  representante_legal: string
+  nit: string
+  nic: string
+  telefono: string
+  pagina_web: string
+  correo_electronico: string
+}
+
+export type EmpresaPublic = {
+  id: string
+  created_at: Date
+  nombre_empresa: string
+  direccion: string
+  representante_legal: string
+  nit: string
+  nic: string
+  telefono: string
+  pagina_web: string
+  correo_electronico: string
+}
+
+export type EmpresasPublic = {
+  data: Array<EmpresaPublic>
+  count: number
+}
+
+export type EmpresaUpdate = {
+  nombre_empresa: string
+  direccion: string
+  representante_legal: string
+  nit: string
+  nic: string
+  telefono: string
+  pagina_web: string
+  correo_electronico: string
+}
+
+export type EmpresasReadEmpresasData = {
+  limit?: number
+  skip?: number
+}
+
+export type EmpresasCreateEmpresaData = {
+  requestBody: EmpresaCreate
+}
+
+export type EmpresasReadEmpresaData = {
+  id: string
+}
+export type EmpresasUpdateEmpresaData = {
+  id: string
+  requestBody: EmpresaUpdate
+}
+
+export type EmpresasDeleteEmpresaData = {
+  id: string
+}
+
+export type EmpresasUpdateEmpresaResponse = EmpresaPublic
+export type EmpresasDeleteEmpresaResponse = Message
+export type EmpresasReadEmpresaResponse = EmpresaPublic
+export type EmpresasCreateEmpresaResponse = EmpresaPublic
+export type EmpresasReadEmpresasResponse = EmpresasPublic
+
+// Empleado
+export type EmpleadoCreate = {
+  primer_nombre: string
+  segundo_nombre: string | null
+  primer_apellido: string
+  segundo_apellido: string | null
+  apellido_casada: string | null
+  fecha_nacimiento: Date
+  fecha_ingreso: Date
+  numero_documento: string
+  numero_nit: string
+  codigo_isss: string
+  codigo_nup: string
+  salario: number
+  id_sexo: string
+}
+
+export type EmpleadoPublic = {
+  id: string
+  created_at: Date
+  primer_nombre: string
+  segundo_nombre: string | null
+  primer_apellido: string
+  segundo_apellido: string | null
+  apellido_casada: string | null
+  fecha_nacimiento: Date
+  fecha_ingreso: Date
+  numero_documento: string
+  numero_nit: string
+  codigo_isss: string
+  codigo_nup: string
+  salario: number
+  id_sexo: string
+  nombre_sexo: string
+}
+
+export type EmpleadosPublic = {
+  data: Array<EmpleadoPublic>
+  count: number
+}
+
+export type EmpleadoUpdate = {
+  primer_nombre: string
+  segundo_nombre: string | null
+  primer_apellido: string
+  segundo_apellido: string | null
+  apellido_casada: string | null
+  fecha_nacimiento: Date
+  fecha_ingreso: Date
+  numero_documento: string
+  numero_nit: string
+  codigo_isss: string
+  codigo_nup: string
+  salario: number
+  id_sexo: string
+}
+
+export type EmpleadosReadEmpleadosData = {
+  limit?: number
+  skip?: number
+}
+
+export type EmpleadosCreateEmpleadoData = {
+  requestBody: EmpleadoCreate
+}
+
+export type EmpleadosReadEmpleadoData = {
+  id: string
+}
+export type EmpleadosUpdateEmpleadoData = {
+  id: string
+  requestBody: EmpleadoUpdate
+}
+
+export type EmpleadosDeleteEmpleadoData = {
+  id: string
+}
+
+export type EmpleadosUpdateEmpleadoResponse = EmpleadoPublic
+export type EmpleadosDeleteEmpleadoResponse = Message
+export type EmpleadosReadEmpleadoResponse = EmpleadoPublic
+export type EmpleadosCreateEmpleadoResponse = EmpleadoPublic
+export type EmpleadosReadEmpleadosResponse = EmpleadosPublic
